@@ -1,0 +1,29 @@
+meta {
+  name: Reseña inválida
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{resenasUrl}}/resenas
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "libroId": 1,
+    "autor": "Alguien",
+    "calificacion": 7
+  }
+}
+
+tests {
+  test("una calificación de 7 se rechaza con 422", function() {
+    expect(res.getStatus()).to.equal(422);
+  });
+}
+
+docs {
+  La validación la hace Pydantic a partir del modelo: calificacion debe estar entre 1 y 5.
+}

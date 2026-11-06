@@ -1,0 +1,27 @@
+# Levanta los tres servicios en local:   docker compose up --build
+# Detener solo reseñas (demo de fallo):  docker compose stop resenas
+services:
+  libros:
+    build: ./libros-service-h27      # Helidon 27 + Java 27
+    container_name: libros-service
+    ports:
+      - "8081:8081"
+
+  resenas:
+    build: ./resenas-service
+    container_name: resenas-service
+    ports:
+      - "8082:8082"
+
+  gateway:
+    build: ./gateway
+    container_name: gateway
+    ports:
+      - "8080:8080"
+    environment:
+      # Dentro de la red de Docker, cada servicio se encuentra por su NOMBRE
+      LIBROS_URL: http://libros:8081
+      RESENAS_URL: http://resenas:8082
+    depends_on:
+      - libros
+      - resenas

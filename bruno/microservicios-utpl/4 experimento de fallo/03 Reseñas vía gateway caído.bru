@@ -1,0 +1,17 @@
+meta {
+  name: Reseñas vía gateway caído
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{gatewayUrl}}/api/resenas
+  body: none
+  auth: none
+}
+
+tests {
+  test("el gateway responde 503 Service Unavailable", function() {
+    expect(res.getStatus()).to.equal(503);
+  });
+}

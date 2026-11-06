@@ -1,0 +1,24 @@
+meta {
+  name: Listar libros
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{librosUrl}}/libros
+  body: none
+  auth: none
+}
+
+tests {
+  test("responde 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("devuelve una lista con al menos 4 libros", function() {
+    expect(res.getBody()).to.be.an("array").with.length.of.at.least(4);
+  });
+  test("lo responde libros-service", function() {
+    expect(res.getHeader("x-service")).to.equal("libros-service");
+  });
+}

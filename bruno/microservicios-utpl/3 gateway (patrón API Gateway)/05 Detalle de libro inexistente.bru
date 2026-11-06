@@ -1,0 +1,17 @@
+meta {
+  name: Detalle de libro inexistente
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{gatewayUrl}}/api/libros/999/detalle
+  body: none
+  auth: none
+}
+
+tests {
+  test("el 404 de libros-service llega al cliente", function() {
+    expect(res.getStatus()).to.equal(404);
+  });
+}

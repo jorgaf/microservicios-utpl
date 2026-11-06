@@ -1,0 +1,36 @@
+# Ejemplo didáctico (no se despliega en la clase): cómo Kubernetes usaría
+# los endpoints de salud que ya expone libros-service.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: libros-service
+spec:
+  replicas: 2                      # dos copias del mismo microservicio
+  selector:
+    matchLabels: { app: libros-service }
+  template:
+    metadata:
+      labels: { app: libros-service }
+    spec:
+      containers:
+        - name: libros-service
+          image: TU_USUARIO/libros-service:1.0   # la imagen que construimos con docker build
+          ports:
+            - containerPort: 8081
+          livenessProbe:           # si falla -> Kubernetes REINICIA el contenedor
+            httpGet: { path: /observe/health/live, port: 8081 }
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:          # si falla -> Kubernetes deja de ENVIARLE tráfico
+            httpGet: { path: /observe/health/ready, port: 8081 }
+            periodSeconds: 5
+---
+apiVersion: v1
+kind: Service                      # nombre estable + balanceo entre las réplicas
+metadata:
+  name: libros
+spec:
+  selector: { app: libros-service }
+  ports:
+    - port: 8081
+      targetPort: 8081

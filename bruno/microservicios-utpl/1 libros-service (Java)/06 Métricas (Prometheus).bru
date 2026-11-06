@@ -1,0 +1,29 @@
+meta {
+  name: Métricas (Prometheus)
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{librosUrl}}/observe/metrics
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: text/plain
+}
+
+tests {
+  test("responde 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("incluye la métrica de negocio libros_consultados", function() {
+    expect(res.getBody()).to.include("libros_consultados");
+  });
+}
+
+docs {
+  Formato de texto de Prometheus. Ejecuta 'Obtener libro 1' varias veces y observa cómo sube libros_consultados_total.
+}

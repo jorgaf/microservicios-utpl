@@ -1,0 +1,31 @@
+meta {
+  name: Detalle del libro 1 (agregación)
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{gatewayUrl}}/api/libros/1/detalle
+  body: none
+  auth: none
+}
+
+tests {
+  test("responde 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("trae el libro desde Java", function() {
+    expect(res.getBody().libro.titulo).to.equal("Huasipungo");
+  });
+  test("trae sus reseñas desde Python", function() {
+    expect(res.getBody().resenas).to.have.length.of.at.least(1);
+  });
+  test("respuesta completa (no degradada)", function() {
+    expect(res.getBody().degradado).to.equal(false);
+  });
+}
+
+docs {
+  Una sola llamada del cliente = dos llamadas internas en paralelo (Java + Python) unidas por el gateway.
+}

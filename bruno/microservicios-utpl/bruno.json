@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "Microservicios UTPL",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

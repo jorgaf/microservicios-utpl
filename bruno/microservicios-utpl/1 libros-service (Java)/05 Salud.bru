@@ -1,0 +1,25 @@
+meta {
+  name: Salud
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{librosUrl}}/observe/health
+  body: none
+  auth: none
+}
+
+tests {
+  test("responde 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("estado UP", function() {
+    expect(res.getBody().status).to.equal("UP");
+  });
+}
+
+docs {
+  Endpoint de salud que Helidon agrega automáticamente. Kubernetes lo usaría como liveness/readiness probe.
+}

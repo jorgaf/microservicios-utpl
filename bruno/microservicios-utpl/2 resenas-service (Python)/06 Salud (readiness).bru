@@ -1,0 +1,21 @@
+meta {
+  name: Salud (readiness)
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{resenasUrl}}/observe/health/ready
+  body: none
+  auth: none
+}
+
+tests {
+  test("responde 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("listo para recibir tráfico", function() {
+    expect(res.getBody().status).to.equal("UP");
+  });
+}

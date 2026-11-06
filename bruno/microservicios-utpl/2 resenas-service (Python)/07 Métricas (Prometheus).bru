@@ -1,0 +1,25 @@
+meta {
+  name: Métricas (Prometheus)
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{resenasUrl}}/observe/metrics
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: text/plain
+}
+
+tests {
+  test("responde 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("incluye la métrica de negocio resenas_creadas_total", function() {
+    expect(res.getBody()).to.include("resenas_creadas_total");
+  });
+}

@@ -1,0 +1,17 @@
+meta {
+  name: Libro inexistente
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{librosUrl}}/libros/999
+  body: none
+  auth: none
+}
+
+tests {
+  test("responde 404", function() {
+    expect(res.getStatus()).to.equal(404);
+  });
+}

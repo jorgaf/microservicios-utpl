@@ -1,0 +1,33 @@
+meta {
+  name: Crear libro
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{librosUrl}}/libros
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "titulo": "Las cruces sobre el agua",
+    "autor": "Joaquín Gallegos Lara",
+    "anio": 1946,
+    "genero": "Novela social"
+  }
+}
+
+script:post-response {
+  bru.setVar("libroCreadoId", res.getBody().id);
+}
+
+tests {
+  test("responde 201 Created", function() {
+    expect(res.getStatus()).to.equal(201);
+  });
+  test("el servidor asigna un id", function() {
+    expect(res.getBody().id).to.be.a("number");
+  });
+}

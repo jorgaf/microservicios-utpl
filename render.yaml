@@ -1,0 +1,47 @@
+# Blueprint de Render: despliega los 3 servicios desde este repositorio.
+# Render > New > Blueprint > selecciona el repo.
+# Plan gratuito: cada servicio se duerme tras ~15 min sin tráfico y tarda ~1 min en despertar.
+services:
+  - type: web
+    name: libros-service
+    runtime: docker
+    plan: free
+    rootDir: libros-service-h27     # Helidon 27 + Java 27
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /observe/health
+    envVars:
+      - key: PORT            # puerto que Render enruta
+        value: "8081"
+      - key: SERVER_PORT     # puerto donde escucha Helidon
+        value: "8081"
+
+  - type: web
+    name: resenas-service
+    runtime: docker
+    plan: free
+    rootDir: resenas-service
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /observe/health
+    envVars:
+      - key: PORT
+        value: "8082"
+
+  - type: web
+    name: gateway
+    runtime: docker
+    plan: free
+    rootDir: gateway
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /observe/health
+    envVars:
+      - key: PORT
+        value: "8080"
+      # URLs públicas de los otros dos servicios (Render las pide al crear el Blueprint).
+      # Ejemplo: https://libros-service-xxxx.onrender.com
+      - key: LIBROS_URL
+        sync: false
+      - key: RESENAS_URL
+        sync: false
+      # Margen para que un servicio dormido despierte
+      - key: TIMEOUT_SECONDS
+        value: "60"

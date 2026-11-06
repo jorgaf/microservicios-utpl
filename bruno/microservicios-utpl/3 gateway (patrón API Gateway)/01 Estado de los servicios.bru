@@ -1,0 +1,24 @@
+meta {
+  name: Estado de los servicios
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{gatewayUrl}}/api/estado
+  body: none
+  auth: none
+}
+
+tests {
+  test("responde 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("libros-service está UP", function() {
+    expect(res.getBody().servicios["libros-service"].status).to.equal("UP");
+  });
+  test("resenas-service está UP", function() {
+    expect(res.getBody().servicios["resenas-service"].status).to.equal("UP");
+  });
+}

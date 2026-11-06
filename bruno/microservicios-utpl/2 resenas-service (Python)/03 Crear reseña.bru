@@ -1,0 +1,26 @@
+meta {
+  name: Crear reseña
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{resenasUrl}}/resenas
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "libroId": 3,
+    "autor": "Estudiante UTPL",
+    "calificacion": 5,
+    "comentario": "Comala me atrapó."
+  }
+}
+
+tests {
+  test("responde 201 Created", function() {
+    expect(res.getStatus()).to.equal(201);
+  });
+}

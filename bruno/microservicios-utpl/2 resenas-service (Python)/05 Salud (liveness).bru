@@ -1,0 +1,21 @@
+meta {
+  name: Salud (liveness)
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{resenasUrl}}/observe/health/live
+  body: none
+  auth: none
+}
+
+tests {
+  test("responde 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("estado UP", function() {
+    expect(res.getBody().status).to.equal("UP");
+  });
+}

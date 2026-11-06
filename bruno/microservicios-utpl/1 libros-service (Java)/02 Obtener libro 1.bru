@@ -1,0 +1,21 @@
+meta {
+  name: Obtener libro 1
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{librosUrl}}/libros/1
+  body: none
+  auth: none
+}
+
+tests {
+  test("responde 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("el libro 1 es Huasipungo", function() {
+    expect(res.getBody().titulo).to.equal("Huasipungo");
+  });
+}

@@ -1,0 +1,15 @@
+server:
+  # Escucha en todas las interfaces: obligatorio dentro de un contenedor
+  host: "0.0.0.0"
+  # Se puede sobrescribir con la variable de entorno SERVER_PORT
+  port: 8081
+  features:
+    observe:
+      observers:
+        health:
+          # Responde 200 con JSON {"status":"UP",...} en vez de 204 sin cuerpo,
+          # igual que reseñas y el gateway (contrato común de salud)
+          details: true
+
+app:
+  nombre: "libros-service"

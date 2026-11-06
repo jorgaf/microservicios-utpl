@@ -1,0 +1,26 @@
+meta {
+  name: Crear reseña vía gateway
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{gatewayUrl}}/api/resenas
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "libroId": 2,
+    "autor": "Grupo de práctica",
+    "calificacion": 4,
+    "comentario": "Creada a través del gateway."
+  }
+}
+
+tests {
+  test("responde 201 Created", function() {
+    expect(res.getStatus()).to.equal(201);
+  });
+}
